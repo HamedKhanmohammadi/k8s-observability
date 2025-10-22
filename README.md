@@ -29,7 +29,7 @@ Production-ready, kubeadm-compatible deployment for a cluster with **Cilium**, *
 ## Quick start
 
 ```bash
-git clone <your-repo-url>.git
+git clone https://github.com/HamedKhanmohammadi/k8s-observability.git
 cd k8s-observability
 ```
 
