@@ -1,0 +1,21 @@
+# values-mimir.yaml
+global:
+  storageClass: longhorn
+
+metaMonitoring:
+  dashboards:
+    enabled: false
+  serviceMonitor:
+    enabled: false
+
+# Keep replicas low for a small cluster
+mimir:
+  blocks_storage:
+    backend: filesystem
+  ruler:
+    enabled: true
+minio:
+  enabled: false
+# Expose via gateway (ClusterIP) for in-cluster access
+nginx:
+  enabled: true

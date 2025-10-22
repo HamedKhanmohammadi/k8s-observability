@@ -1,0 +1,58 @@
+# grafana.yaml
+
+adminUser: admin
+adminPassword: Str0ngPassw0rd!
+
+datasources:
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+      - name: Loki
+        type: loki
+        access: proxy
+        uid: loki
+        jsonData:
+          maxLines: 1000
+        healthCheck:
+          enabled: false
+        url: http://loki-gateway.loki.svc.cluster.local
+        isDefault: false
+      - name: Tempo
+        type: tempo
+        access: proxy
+        uid: tempo
+        url:  http://tempo-query-frontend.tempo.svc.cluster.local:3200
+        jsonData:
+          tracesToLogsV2:
+            datasourceUid: 'loki'
+            spanStartTimeShift: '-5m'
+            spanEndTimeShift: '5m'
+          serviceMap:
+            datasourceUid: 'mimir'
+      - name: Mimir
+        type: prometheus
+        uid: mimir
+        access: proxy
+        url: http://mimir-gateway.mimir.svc.cluster.local/prometheus
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
+
+persistence:
+  type: pvc
+  enabled: true
+  size: 10Gi
+  storageClassName: longhorn
+
+service:
+  type: LoadBalancer
+  loadBalancerIP: 192.168.55.58
+  port: 80
+
+ingress:
+  enabled: false

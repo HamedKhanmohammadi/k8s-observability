@@ -1,0 +1,11 @@
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Python/venv
+venv/
+__pycache__/
+
+# Helm
+charts/
+*.tgz
